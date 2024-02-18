@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  school_rest_app:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: school_rest_app_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - school_rest_app_db:/var/lib/postgresql/data
+
+volumes:
+  school_rest_app_db:
+    driver: local
