@@ -1,4 +1,4 @@
-package com.endropioz.schoolrestapp.entity.base;
+package com.endropioz.schoolrestapp.core.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

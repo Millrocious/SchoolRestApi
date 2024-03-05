@@ -6,4 +6,15 @@ spring:
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+
+verification:
+  token:
+    expiration: 1440 # Value in minutes, 60 * 24 (one day)
+
+application:
+  security:
+    jwt:
+      secret-key: koxelJPNOmdGTDaHkqL1D+vAhA9PXiddCi00q1UDEL0TEoB3RxlKQ1p0bPX9esoJjNWqL6yoPwjjBhbqPOpRXTZl4ceDypJaEsjVFJgp+LE=
+      access-token-expiration: 1800000 # half an hour
+      refresh-token-expiration: 86400000 # one day

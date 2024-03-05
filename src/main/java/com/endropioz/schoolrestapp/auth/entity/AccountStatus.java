@@ -1,4 +1,4 @@
-package com.endropioz.schoolrestapp.entity.user;
+package com.endropioz.schoolrestapp.auth.entity;
 
 public enum AccountStatus {
     ACTIVE,
