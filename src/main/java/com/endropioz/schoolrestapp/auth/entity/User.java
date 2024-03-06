@@ -23,8 +23,8 @@ import java.util.Collection;
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Inheritance(strategy = InheritanceType.JOINED)
-@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
-@SQLRestriction("is_deleted = false")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class User extends AuditableEntity implements UserDetails {
 
     @Column(name = "email", nullable = false, unique = true)
@@ -35,11 +35,11 @@ public class User extends AuditableEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    AccountStatus accountStatus;
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    AccountStatus accountStatus;
 
     @Column(name = "verification_token", unique = true)
     String verificationToken;
@@ -48,7 +48,7 @@ public class User extends AuditableEntity implements UserDetails {
     LocalDateTime tokenExpiryDate;
 
     @Column(nullable = false)
-    Boolean isDeleted = false;
+    boolean deleted = Boolean.FALSE;
 
     public boolean isVerificationTokenExpired() {
         return tokenExpiryDate.isBefore(LocalDateTime.now());

@@ -7,14 +7,26 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
 
 verification:
   token:
     expiration: 1440 # Value in minutes, 60 * 24 (one day)
 
+auth:
+  message:
+    confirmed: Your account has been confirmed.
+    invalidToken: The provided token is invalid.
+    expired: The token has expired.
+    tokenNotFound: No token found.
+
 application:
   security:
     jwt:
-      secret-key: koxelJPNOmdGTDaHkqL1D+vAhA9PXiddCi00q1UDEL0TEoB3RxlKQ1p0bPX9esoJjNWqL6yoPwjjBhbqPOpRXTZl4ceDypJaEsjVFJgp+LE=
+      secret-key: ${JWT_KEY}
       access-token-expiration: 1800000 # half an hour
       refresh-token-expiration: 86400000 # one day

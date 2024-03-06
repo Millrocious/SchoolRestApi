@@ -1,9 +1,9 @@
 package com.endropioz.schoolrestapp.auth.controller;
 
-import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailRequestDto;
+import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailDto;
 import com.endropioz.schoolrestapp.auth.dto.auth.AuthRegistrationRequestDto;
-import com.endropioz.schoolrestapp.auth.dto.auth.AuthResponseDto;
 import com.endropioz.schoolrestapp.auth.dto.token.VerificationTokenMessageDto;
+import com.endropioz.schoolrestapp.auth.dto.user.UserResponseDto;
 import com.endropioz.schoolrestapp.auth.service.registration.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class RegistrationController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody AuthRegistrationRequestDto registrationDto,
                                           HttpServletRequest request) {
         try {
-            AuthResponseDto responseDto = registrationService.completeRegistration(registrationDto, request);
+            UserResponseDto responseDto = registrationService.completeRegistration(registrationDto, request);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
         } catch (IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -35,7 +35,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/resend")
-    public ResponseEntity<?> resendVerificationEmail(@Valid @RequestBody AuthEmailRequestDto emailDto,
+    public ResponseEntity<?> resendVerificationEmail(@Valid @RequestBody AuthEmailDto emailDto,
                                                      HttpServletRequest request) {
         try {
             registrationService.resendVerificationEmail(emailDto, request);

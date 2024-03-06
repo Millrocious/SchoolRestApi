@@ -1,6 +1,6 @@
 package com.endropioz.schoolrestapp.auth.service.impl;
 
-import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailRequestDto;
+import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailDto;
 import com.endropioz.schoolrestapp.auth.dto.token.VerificationTokenDto;
 import com.endropioz.schoolrestapp.auth.entity.User;
 import com.endropioz.schoolrestapp.auth.repository.UserRepository;
@@ -30,7 +30,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     @Transactional
-    public void createVerificationToken(AuthEmailRequestDto emailDto, String token) {
+    public void createVerificationToken(AuthEmailDto emailDto, String token) {
         String email = emailDto.email().toLowerCase();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));

@@ -1,18 +1,18 @@
 package com.endropioz.schoolrestapp.auth.service.impl.registration;
 
 import com.endropioz.schoolrestapp.auth.config.AuthMessages;
-import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailRequestDto;
+import com.endropioz.schoolrestapp.auth.dto.auth.AuthEmailDto;
 import com.endropioz.schoolrestapp.auth.dto.auth.AuthRegistrationRequestDto;
-import com.endropioz.schoolrestapp.auth.dto.auth.AuthResponseDto;
 import com.endropioz.schoolrestapp.auth.dto.token.VerificationTokenDto;
 import com.endropioz.schoolrestapp.auth.dto.token.VerificationTokenMessageDto;
+import com.endropioz.schoolrestapp.auth.dto.user.UserResponseDto;
 import com.endropioz.schoolrestapp.auth.entity.AccountStatus;
 import com.endropioz.schoolrestapp.auth.entity.User;
+import com.endropioz.schoolrestapp.auth.event.OnRegistrationCompleteEvent;
+import com.endropioz.schoolrestapp.auth.repository.UserRepository;
 import com.endropioz.schoolrestapp.auth.service.UserService;
 import com.endropioz.schoolrestapp.auth.service.VerificationTokenService;
 import com.endropioz.schoolrestapp.auth.service.registration.RegistrationService;
-import com.endropioz.schoolrestapp.auth.event.OnRegistrationCompleteEvent;
-import com.endropioz.schoolrestapp.auth.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -47,13 +47,13 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional
-    public void resendVerificationEmail(AuthEmailRequestDto emailDto, HttpServletRequest request) {
+    public void resendVerificationEmail(AuthEmailDto emailDto, HttpServletRequest request) {
         userService.getUserByEmail(emailDto.email());
         sendVerificationEmail(request, emailDto);
     }
 
     @Override
-    public void sendVerificationEmail(HttpServletRequest request, AuthEmailRequestDto activatedUserDto) {
+    public void sendVerificationEmail(HttpServletRequest request, AuthEmailDto activatedUserDto) {
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(activatedUserDto,
                 request.getLocale(),
                 request.getContextPath()));
@@ -86,11 +86,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional
-    public AuthResponseDto completeRegistration(AuthRegistrationRequestDto registrationDto, HttpServletRequest request) {
-        AuthResponseDto responseDto =
-                strategyFactory.get(registrationDto.userType()).registerUser(registrationDto);
+    public UserResponseDto completeRegistration(AuthRegistrationRequestDto registrationDto, HttpServletRequest request) {
+        UserResponseDto responseDto = strategyFactory.get(registrationDto.userType()).registerUser(registrationDto);
 
-        sendVerificationEmail(request, new AuthEmailRequestDto(registrationDto.email()));
+        sendVerificationEmail(request, new AuthEmailDto(registrationDto.email()));
 
         return responseDto;
     }
