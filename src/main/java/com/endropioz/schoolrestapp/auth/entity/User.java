@@ -1,26 +1,30 @@
-package com.endropioz.schoolrestapp.entity.user;
+package com.endropioz.schoolrestapp.auth.entity;
 
-import com.endropioz.schoolrestapp.entity.base.AuditableEntity;
+import com.endropioz.schoolrestapp.core.entity.AuditableEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 
 @Getter
 @Setter
 @Entity
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
-@SQLRestriction("is_deleted = false")
+@Inheritance(strategy = InheritanceType.JOINED)
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class User extends AuditableEntity implements UserDetails {
 
     @Column(name = "email", nullable = false, unique = true)
@@ -31,14 +35,29 @@ public class User extends AuditableEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    AccountStatus accountStatus;
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    AccountStatus accountStatus;
+
+    @Column(name = "verification_token", unique = true)
+    String verificationToken;
+
+    @Column(name = "token_expiry_date")
+    LocalDateTime tokenExpiryDate;
 
     @Column(nullable = false)
-    Boolean isDeleted = false;
+    boolean deleted = Boolean.FALSE;
+
+    public boolean isVerificationTokenExpired() {
+        return tokenExpiryDate.isBefore(LocalDateTime.now());
+    }
+
+    public void updateVerificationToken(String newToken, LocalDateTime newExpiryDate) {
+        this.verificationToken = newToken;
+        this.tokenExpiryDate = newExpiryDate;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
