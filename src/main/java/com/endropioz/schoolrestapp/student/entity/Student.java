@@ -1,7 +1,6 @@
 package com.endropioz.schoolrestapp.student.entity;
 
-import com.endropioz.schoolrestapp.core.entity.AuditableEntity;
-import jakarta.persistence.Column;
+import com.endropioz.schoolrestapp.core.entity.BasePersonEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -18,18 +17,5 @@ import org.hibernate.annotations.SQLRestriction;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @SQLDelete(sql = "UPDATE students SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
-public class Student extends AuditableEntity {
-    @Column(nullable = false)
-    String firstName;
-
-    @Column(nullable = false)
-    String lastName;
-
-    @Column(nullable = false, unique = true)
-    String email;
-
-    @Column(nullable = false, unique = true)
-    String phone;
-
-    boolean deleted = Boolean.FALSE;
+public class Student extends BasePersonEntity {
 }
