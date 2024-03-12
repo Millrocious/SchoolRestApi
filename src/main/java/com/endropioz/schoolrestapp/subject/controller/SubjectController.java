@@ -1,6 +1,7 @@
 package com.endropioz.schoolrestapp.subject.controller;
 
-import com.endropioz.schoolrestapp.subject.dto.SubjectDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectRequestDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectResponseDto;
 import com.endropioz.schoolrestapp.subject.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -22,23 +23,23 @@ public class SubjectController {
     SubjectService subjectService;
 
     @GetMapping
-    public Page<SubjectDto> getAllSubjects(@PageableDefault Pageable pageable) {
+    public Page<SubjectResponseDto> getAllSubjects(@PageableDefault Pageable pageable) {
         return subjectService.getAllSubjects(pageable);
     }
 
     @GetMapping("/{id}")
-    public SubjectDto getSubjectById(@PathVariable("id") Long id) {
+    public SubjectResponseDto getSubjectById(@PathVariable("id") Long id) {
         return subjectService.getSubjectById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SubjectDto addNewSubject(@RequestBody @Valid SubjectDto subjectDto) {
+    public SubjectResponseDto addNewSubject(@RequestBody @Valid SubjectRequestDto subjectDto) {
         return subjectService.addSubject(subjectDto);
     }
 
     @PutMapping("/{id}")
-    public SubjectDto updateSubjectById(@PathVariable("id") Long id, @RequestBody @Valid SubjectDto requestBody) {
+    public SubjectResponseDto updateSubjectById(@PathVariable("id") Long id, @RequestBody @Valid SubjectRequestDto requestBody) {
         return subjectService.updateSubjectById(id, requestBody);
     }
 

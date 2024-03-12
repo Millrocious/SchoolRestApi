@@ -1,6 +1,7 @@
 package com.endropioz.schoolrestapp.subject.mapper;
 
-import com.endropioz.schoolrestapp.subject.dto.SubjectDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectRequestDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectResponseDto;
 import com.endropioz.schoolrestapp.subject.entity.Subject;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,10 +14,10 @@ public interface SubjectMapper {
 
     SubjectMapper MAPPER = Mappers.getMapper(SubjectMapper.class);
 
-    SubjectDto toSubjectDto(Subject subject);
+    SubjectResponseDto toResponseDto(Subject subject);
 
-    Subject toEntity(SubjectDto studentRequestDto);
+    Subject toEntity(SubjectRequestDto studentRequestDto);
 
     @Mapping(target = "id", ignore = true)
-    void updateEntity(SubjectDto subjectDto, @MappingTarget Subject subject);
+    void updateEntity(SubjectRequestDto subjectDto, @MappingTarget Subject subject);
 }

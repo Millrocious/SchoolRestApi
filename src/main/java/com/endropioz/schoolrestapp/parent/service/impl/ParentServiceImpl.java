@@ -6,6 +6,7 @@ import com.endropioz.schoolrestapp.parent.entity.Parent;
 import com.endropioz.schoolrestapp.parent.mapper.ParentMapper;
 import com.endropioz.schoolrestapp.parent.repository.ParentRepository;
 import com.endropioz.schoolrestapp.parent.service.ParentService;
+import com.endropioz.schoolrestapp.student.repository.StudentRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,12 +21,15 @@ import org.springframework.web.server.ResponseStatusException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ParentServiceImpl implements ParentService {
     ParentRepository parentRepository;
+    StudentRepository studentRepository;
 
     ParentMapper parentMapper = ParentMapper.MAPPER;
 
     @Override
     public ParentResponseDto addParent(ParentRequestDto parentRequestDto) {
         Parent newParent = parentMapper.toEntity(parentRequestDto);
+
+        newParent.setChildren(studentRepository.findAllById(parentRequestDto.childrenId()));
 
         return parentMapper.toResponseDto(parentRepository.save(newParent));
     }

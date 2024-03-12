@@ -1,6 +1,7 @@
 package com.endropioz.schoolrestapp.subject.service.impl;
 
-import com.endropioz.schoolrestapp.subject.dto.SubjectDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectRequestDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectResponseDto;
 import com.endropioz.schoolrestapp.subject.entity.Subject;
 import com.endropioz.schoolrestapp.subject.mapper.SubjectMapper;
 import com.endropioz.schoolrestapp.subject.repository.SubjectRepository;
@@ -24,32 +25,32 @@ public class SubjectServiceImpl implements SubjectService {
     SubjectMapper subjectMapper = SubjectMapper.MAPPER;
 
     @Override
-    public Page<SubjectDto> getAllSubjects(Pageable pageable) {
+    public Page<SubjectResponseDto> getAllSubjects(Pageable pageable) {
         Page<Subject> subjects = subjectRepository.findAll(pageable);
 
-        return subjects.map(subjectMapper::toSubjectDto);
+        return subjects.map(subjectMapper::toResponseDto);
     }
 
     @Override
-    public SubjectDto getSubjectById(Long id) {
-        return subjectMapper.toSubjectDto(getExistingSubjectById(id));
+    public SubjectResponseDto getSubjectById(Long id) {
+        return subjectMapper.toResponseDto(getExistingSubjectById(id));
     }
 
     @Override
-    public SubjectDto addSubject(SubjectDto subjectDto) {
+    public SubjectResponseDto addSubject(SubjectRequestDto subjectDto) {
         Subject newSubject = subjectMapper.toEntity(subjectDto);
 
-        return subjectMapper.toSubjectDto(subjectRepository.save(newSubject));
+        return subjectMapper.toResponseDto(subjectRepository.save(newSubject));
     }
 
     @Override
-    public SubjectDto updateSubjectById(Long id, SubjectDto subjectDto) {
+    public SubjectResponseDto updateSubjectById(Long id, SubjectRequestDto subjectDto) {
         Subject existingSubject = getExistingSubjectById(id);
 
         subjectMapper.updateEntity(subjectDto, existingSubject);
         subjectRepository.save(existingSubject);
 
-        return subjectMapper.toSubjectDto(existingSubject);
+        return subjectMapper.toResponseDto(existingSubject);
     }
 
     @Override

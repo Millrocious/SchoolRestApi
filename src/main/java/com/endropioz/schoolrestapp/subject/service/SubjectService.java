@@ -1,19 +1,20 @@
 package com.endropioz.schoolrestapp.subject.service;
 
-import com.endropioz.schoolrestapp.subject.dto.SubjectDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectRequestDto;
+import com.endropioz.schoolrestapp.subject.dto.SubjectResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
 public interface SubjectService {
 
-    Page<SubjectDto> getAllSubjects(Pageable pageable);
+    Page<SubjectResponseDto> getAllSubjects(Pageable pageable);
 
-    SubjectDto getSubjectById(Long id);
+    SubjectResponseDto getSubjectById(Long id);
 
-    SubjectDto addSubject(SubjectDto subjectDto);
+    SubjectResponseDto addSubject(SubjectRequestDto subjectDto);
 
-    SubjectDto updateSubjectById(Long id, SubjectDto requestBody);
+    SubjectResponseDto updateSubjectById(Long id, SubjectRequestDto requestBody);
 
     void deleteSubjectById(Long id);
 }
