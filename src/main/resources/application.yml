@@ -7,11 +7,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   mail:
     host: smtp.gmail.com
     port: 587
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 verification:
   token:

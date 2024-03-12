@@ -1,5 +1,7 @@
 package com.endropioz.schoolrestapp.parent.dto;
 
+import com.endropioz.schoolrestapp.student.entity.Student;
+
 import java.util.List;
 
 public record ParentResponseDto(
@@ -7,6 +9,7 @@ public record ParentResponseDto(
         String firstName,
         String lastName,
         String email,
-        List<Long> childrenId
+        String phone,
+        List<Student> children
 ) {
 }
