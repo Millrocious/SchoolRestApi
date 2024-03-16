@@ -6,8 +6,12 @@ import com.endropioz.schoolrestapp.classgroup.entity.ClassGroup;
 import com.endropioz.schoolrestapp.classgroup.mapper.ClassGroupMapper;
 import com.endropioz.schoolrestapp.classgroup.repository.ClassGroupRepository;
 import com.endropioz.schoolrestapp.classgroup.service.ClassGroupService;
+import com.endropioz.schoolrestapp.student.entity.Student;
+import com.endropioz.schoolrestapp.student.repository.StudentRepository;
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,11 +20,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ClassGroupServiceImpl implements ClassGroupService {
 
-    private final ClassGroupRepository classGroupRepository;
+    ClassGroupRepository classGroupRepository;
+    StudentRepository studentRepository;
 
-    private final ClassGroupMapper classGroupMapper = ClassGroupMapper.MAPPER;
+    ClassGroupMapper classGroupMapper = ClassGroupMapper.MAPPER;
 
     @Override
     @Transactional
@@ -57,6 +63,18 @@ public class ClassGroupServiceImpl implements ClassGroupService {
         classGroupMapper.updateEntity(classGroupDto, existingClassGroup);
 
         return classGroupMapper.toResponseDto(classGroupRepository.save(existingClassGroup));
+    }
+
+    @Override
+    public void addStudentToClassGroup(Long classGroupId, Long studentId) {
+        ClassGroup existingClassGroup = findById(classGroupId);
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+
+        existingClassGroup.getStudents().add(student);
+
+        classGroupRepository.save(existingClassGroup);
     }
 
     private ClassGroup findById(Long id) {

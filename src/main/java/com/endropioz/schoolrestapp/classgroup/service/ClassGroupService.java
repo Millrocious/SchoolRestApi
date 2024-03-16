@@ -17,5 +17,5 @@ public interface ClassGroupService {
 
   ClassGroupResponseDto updateClassGroup(Long id, ClassGroupRequestDto classGroupDto);
 
-  //void addStudentToClassGroup(Long classGroupId, Long studentId);
+  void addStudentToClassGroup(Long classGroupId, Long studentId);
 }

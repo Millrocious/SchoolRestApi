@@ -13,6 +13,7 @@ public interface ClassGroupMapper {
 
     ClassGroupMapper MAPPER = Mappers.getMapper(ClassGroupMapper.class);
 
+    @Mapping(target = "students", source = "students")
     ClassGroupResponseDto toResponseDto(ClassGroup classGroup);
 
     ClassGroup toEntity(ClassGroupRequestDto classGroupRequestDto);
