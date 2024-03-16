@@ -46,7 +46,7 @@ public class ModuleSubjectClassTeacherServiceImpl implements ModuleSubjectClassT
 
     @Override
     @Transactional
-    public void addNewModuleSubjectClassTeacher(Long moduleId, Long teacherId, Long subjectId, Long classGroupId) {
+    public void addNewModuleSubjectClassTeacher(Long moduleId, Long subjectId, Long classGroupId, Long teacherId) {
         Module module = moduleRepository.findById(moduleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Module not found"));
 

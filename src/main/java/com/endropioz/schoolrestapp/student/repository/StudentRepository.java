@@ -13,5 +13,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT student FROM Student student WHERE student.id IN :ids")
     List<Student> findByIds(@Param("ids") List<Long> childrenIds);
 
+    @Query("SELECT student " +
+            "FROM Student student " +
+            "WHERE student.id " +
+            "IN (SELECT s.id FROM ClassGroup cg JOIN cg.students s WHERE cg.id = :classGroupId)")
+    List<Student> findAllByClassGroupId(@Param("classGroupId") Long classGroupId);
+
     boolean existsByEmailAndDeletedIsFalse(String email);
 }

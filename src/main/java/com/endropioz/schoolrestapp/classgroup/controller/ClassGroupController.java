@@ -43,10 +43,10 @@ public class ClassGroupController {
         return classGroupService.updateClassGroup(id, classGroupDto);
     }
 
-//    @PutMapping("/{classGroupId}/student/{studentId}")
-//    public void addStudentToClassGroup(@PathVariable Long classGroupId, @PathVariable Long studentId) {
-//        classGroupService.addStudentToClassGroup(classGroupId, studentId);
-//    }
+    @PutMapping("/{classGroupId}/students/{studentId}")
+    public void addStudentToClassGroup(@PathVariable Long classGroupId, @PathVariable Long studentId) {
+        classGroupService.addStudentToClassGroup(classGroupId, studentId);
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
