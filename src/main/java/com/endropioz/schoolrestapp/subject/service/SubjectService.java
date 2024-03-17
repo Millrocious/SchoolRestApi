@@ -4,6 +4,7 @@ import com.endropioz.schoolrestapp.subject.dto.SubjectRequestDto;
 import com.endropioz.schoolrestapp.subject.dto.SubjectResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public interface SubjectService {
@@ -17,4 +18,6 @@ public interface SubjectService {
     SubjectResponseDto updateSubjectById(Long id, SubjectRequestDto requestBody);
 
     void deleteSubjectById(Long id);
+
+    void uploadFromFile(MultipartFile file);
 }

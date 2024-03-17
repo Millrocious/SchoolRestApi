@@ -5,6 +5,7 @@ import com.endropioz.schoolrestapp.student.dto.StudentResponseDto;
 import com.endropioz.schoolrestapp.student.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,4 +23,10 @@ public interface StudentService {
     Student getExistingStudentById(Long id);
 
     void saveStudents(List<StudentRequestDto> studentDtoList);
+
+    void uploadFromFile(MultipartFile file);
+
+    void processCSVFile(MultipartFile file);
+
+    void processExcelFile(MultipartFile file);
 }
