@@ -15,9 +15,12 @@
 	<description>SchoolRestApp</description>
 	<properties>
 		<java.version>17</java.version>
+		<csv.version>5.7.1</csv.version>
 		<jwt.version>0.12.3</jwt.version>
 		<mail.version>3.1.5</mail.version>
+		<poiji.version>4.1.2</poiji.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<hypersistence.version>3.5.2</hypersistence.version>
 		<org.projectlombok.version>1.18.30</org.projectlombok.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
@@ -105,7 +108,18 @@
 		<dependency>
 			<groupId>io.hypersistence</groupId>
 			<artifactId>hypersistence-utils-hibernate-60</artifactId>
-			<version>3.5.2</version>
+			<version>${hypersistence.version}</version>
+		</dependency>
+		<!-- CSV utils -->
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>${csv.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ozlerhakan</groupId>
+			<artifactId>poiji</artifactId>
+			<version>${poiji.version}</version>
 		</dependency>
 	</dependencies>
 
