@@ -9,7 +9,7 @@ public class SubjectValidator implements Validator<SubjectRequestDto> {
 
     @Override
     public void validate(SubjectRequestDto entity, Integer rowNumber, ValidationResult result) {
-        String subjectName = ValidationUtil.trimField(entity.name());
+        String subjectName = ValidationUtil.trimField(entity.getName());
         ValidationUtil.validateField(subjectName, INVALID_SUBJECT_PATTERN_NAME, "name", rowNumber, result);
     }
 }
