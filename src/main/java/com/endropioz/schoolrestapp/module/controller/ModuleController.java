@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,11 +25,13 @@ public class ModuleController {
     ModuleSubjectClassTeacherService moduleSubjectClassTeacherService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public Page<ModuleResponseDto> getAllModules(@PageableDefault Pageable pageable) {
         return moduleService.getAllModules(pageable);
     }
 
     @GetMapping("/{moduleId}/subject-class-teachers")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public Page<ModuleSubjectClassTeacherResponseDto> getAllModuleSubjectClassTeachersByModuleId(
             @PathVariable("moduleId") Long moduleId,
             @PageableDefault Pageable pageable
@@ -37,17 +40,20 @@ public class ModuleController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public ModuleResponseDto getModuleById(@PathVariable Long id) {
         return moduleService.getModuleById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public ModuleResponseDto addNewModule(@RequestBody @Valid ModuleRequestDto moduleDto) {
         return moduleService.addNewModule(moduleDto);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public ModuleResponseDto updateModuleById(
             @PathVariable("id") Long id,
             @RequestBody @Valid ModuleRequestDto moduleDto
@@ -55,6 +61,7 @@ public class ModuleController {
         return moduleService.updateModuleById(id, moduleDto);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     @PutMapping("/{moduleId}/subjects/{subjectId}/classes/{classId}/teachers/{teacherId}")
     public void addNewModuleSubjectClassTeacher(
             @PathVariable("moduleId") Long moduleId,
@@ -65,6 +72,7 @@ public class ModuleController {
         moduleSubjectClassTeacherService.addNewModuleSubjectClassTeacher(moduleId, subjectId, classId, teacherId);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     @DeleteMapping("/{moduleId}/subjects/{subjectId}/classes/{classId}/teachers/{teacherId}")
     public void deleteModuleSubjectClassTeacher(
             @PathVariable("moduleId") Long moduleId,
@@ -76,6 +84,7 @@ public class ModuleController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public void deleteModule(@PathVariable Long id) {
         moduleService.deleteModule(id);
     }
