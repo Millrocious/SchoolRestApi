@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,12 +21,12 @@ public class GradeController {
     GradeService gradeService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public GradeResponseDto addGrade(@RequestBody @Valid GradeRequestDto gradeDto) {
         return gradeService.addGrade(gradeDto);
     }
 
     @GetMapping("/{gradeId}")
-
     public GradeResponseDto getGradeById(@PathVariable Long gradeId) {
         return gradeService.getGradeById(gradeId);
     }
@@ -73,6 +74,7 @@ public class GradeController {
     }
 
     @PutMapping("/{gradeId}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public GradeResponseDto updateGrade(
             @RequestBody @Valid GradeRequestDto gradeDto,
             @PathVariable Long gradeId
@@ -81,6 +83,7 @@ public class GradeController {
     }
 
     @DeleteMapping("/{gradeId}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'SCHOOL_ADMIN', 'TEACHER')")
     public void deleteGrade(@PathVariable Long gradeId) {
         gradeService.deleteGrade(gradeId);
     }
